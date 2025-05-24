@@ -3,209 +3,103 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Bored Board – Interactive</title>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet" />
+  <title>Bored Board</title>
   <style>
     body {
-      font-family: 'Fredoka', sans-serif;
-      background: #fff8f4;
+      font-family: 'Arial', sans-serif;
+      background: #f4f4f4;
+      padding: 2rem;
       color: #333;
-      padding: 2rem;
-      margin: 0;
     }
-    .screen {
-      background: white;
-      border-radius: 24px;
-      padding: 2rem;
-      margin: 2rem auto;
-      max-width: 420px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    h1 {
+      text-align: center;
+      margin-bottom: 1.5rem;
     }
-    h1, h2 {
-      color: #ff785a;
+    .form-group {
+      margin-bottom: 1rem;
     }
-    .emoji-selector {
-      display: flex;
-      justify-content: space-between;
-      margin: 1.5rem 0;
-    }
-    .emoji {
-      font-size: 1.75rem;
-      background: #fff3b0;
-      border: 3px solid transparent;
-      border-radius: 16px;
-      padding: 0.75rem 1rem;
-      cursor: pointer;
-      transition: all 0.25s ease;
-    }
-    .emoji.selected {
-      background: #ffe5aa;
-      border-color: #ffc4a3;
-    }
-    .dropdown {
-      margin: 1.5rem 0;
-    }
-    select {
+    select, button {
       width: 100%;
       padding: 0.75rem;
-      border-radius: 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
       font-size: 1rem;
     }
-    button {
-      display: block;
-      width: 100%;
-      margin: 1rem 0;
-      padding: 0.9rem;
-      font-size: 1rem;
-      border-radius: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      border: none;
-    }
-    .primary-button {
-      background: #ff785a;
-      color: white;
-    }
-    .secondary-button {
-      background: #ffe9e0;
+    #activities {
+      margin-top: 2rem;
     }
     .card {
-      background: #fff4ef;
-      border: 2px solid #ffd6c9;
-      border-radius: 16px;
-      margin-bottom: 1.5rem;
+      background: #fff;
+      border-radius: 12px;
       padding: 1rem;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      margin-bottom: 1rem;
     }
-    .card-actions {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 0.5rem;
-    }
-    .toggle {
-      display: flex;
-      align-items: center;
-      margin: 1rem 0;
-    }
-    .toggle input {
-      margin-right: 0.5rem;
+    .card h3 {
+      margin: 0 0 0.5rem 0;
     }
   </style>
 </head>
 <body>
 
-<div class="screen mood-input">
-  <h1>How are you feeling?</h1>
-  <div class="emoji-selector">
-    <button class="emoji" data-mood="chill">😀</button>
-    <button class="emoji" data-mood="bored">😐</button>
-    <button class="emoji" data-mood="sad">😢</button>
-    <button class="emoji" data-mood="energetic">🤩</button>
-  </div>
+  <h1>Bored Board 🧠</h1>
 
-  <div class="dropdown">
-    <label for="moodDetail">Select your vibe</label>
-    <select id="moodDetail">
-      <option value="chill">Chill</option>
+  <div class="form-group">
+    <label for="mood">Mood:</label>
+    <select id="mood">
       <option value="bored">Bored</option>
-      <option value="energetic">Energetic</option>
-      <option value="sad">Sad</option>
+      <option value="stressed">Stressed</option>
+      <option value="adventurous">Adventurous</option>
     </select>
   </div>
 
-  <div class="dropdown">
-    <label for="timeSelect">How much time?</label>
-    <select id="timeSelect">
-      <option value="15 mins">5–15 mins</option>
-      <option value="30 mins">30 mins</option>
+  <div class="form-group">
+    <label for="time">How much time do you have?</label>
+    <select id="time">
+      <option value="5 minutes">5 minutes</option>
+      <option value="15 minutes">15 minutes</option>
+      <option value="30 minutes">30 minutes</option>
       <option value="1 hour">1 hour</option>
-      <option value="2+ hours">2+ hours</option>
     </select>
   </div>
 
-  <div class="toggle">
-    <input type="checkbox" id="locationToggle" />
-    <label for="locationToggle">Include local suggestions</label>
-  </div>
+  <button id="generate">Find Activities</button>
 
-  <button class="primary-button" onclick="alert('Fetching activities…')">Find Activities</button>
-  <button class="secondary-button" onclick="alert('🎲 Surprise! Try making a hat out of aluminum foil.')">Surprise Me</button>
-  <button class="secondary-button" onclick="alert('🧠 Take the boredom personality quiz (coming soon!)')">Boredom Type Quiz</button>
-  <button class="secondary-button" onclick="alert('🔮 Oracle says: Look under your couch cushions.')">Ask the Oracle</button>
-</div>
+  <div id="activities"></div>
 
-<div class="screen activity-results">
-  <h2>Try one of these:</h2>
-  <div class="card">
-    <h3>Paint Something Weird With Coffee</h3>
-    <p>~30 minutes • Creative</p>
-    <div class="card-actions">
-      <button onclick="alert('Saved to your Bored Jar!')">♡ Save</button>
-      <button onclick="alert('Shared to imaginary friends.')">↗ Share</button>
-    </div>
-  </div>
-  <div class="card">
-    <h3>Invent a Backstory for a Random Sock</h3>
-    <p>~10 minutes • Silly</p>
-    <div class="card-actions">
-      <button onclick="alert('Saved to your Bored Jar!')">♡ Save</button>
-      <button onclick="alert('Shared to imaginary friends.')">↗ Share</button>
-    </div>
-  </div>
-  <div class="card">
-    <h3>Try a Nap in a New Spot</h3>
-    <p>~20 minutes • Relaxing</p>
-    <div class="card-actions">
-      <button onclick="alert('Saved to your Bored Jar!')">♡ Save</button>
-      <button onclick="alert('Shared to imaginary friends.')">↗ Share</button>
-    </div>
-  </div>
-  <button class="secondary-button" onclick="location.reload()">Not Feeling These? Try Again</button>
-</div>
+  <script>
+    document.getElementById('generate').addEventListener('click', async () => {
+      const mood = document.getElementById('mood').value;
+      const time = document.getElementById('time').value;
 
-<div class="screen irl-mode">
-  <h2>IRL Mode</h2>
-  <p>Put your phone down! We'll ping you in 10 mins.</p>
-  <button class="primary-button" onclick="alert('🔕 DND activated (imagine it).')">Start Timer</button>
-  <button class="secondary-button" onclick="alert('Session ended early.')">End Early</button>
-</div>
+      const res = await fetch('https://hook.us2.make.com/16yi5ngk6b6pdjtemqyffsvd719b695b', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mood, time })
+      });
 
-<div class="screen social-mode">
-  <h2>Bored Together</h2>
-  <p>Connect with a buddy and complete a task together. No chat, just vibes.</p>
-  <button class="primary-button" onclick="alert('Pairing with a random human (jk, soon).')">Find a Buddy</button>
-</div>
+      const text = await res.text();
 
-<script>
-  document.querySelectorAll('.emoji').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.emoji').forEach(b => b.classList.remove('selected'));
-      btn.classList.add('selected');
-      document.getElementById('moodDetail').value = btn.dataset.mood;
+      try {
+        const data = JSON.parse(text);
+        const container = document.getElementById('activities');
+        container.innerHTML = '';
+
+        data.forEach(item => {
+          const card = document.createElement('div');
+          card.className = 'card';
+          card.innerHTML = `
+            <h3>${item.activity}</h3>
+            <p><strong>Time:</strong> ${item.time}</p>
+            <p><strong>Category:</strong> ${item.category}</p>
+          `;
+          container.appendChild(card);
+        });
+      } catch (e) {
+        console.error('Error parsing response:', e);
+        alert('Something went wrong. Try again later.');
+      }
     });
-  });
-</script>
-<script>
-  document.querySelector('.primary-button').addEventListener('click', async () => {
-  const mood = document.getElementById('moodDetail').value;
-  const time = document.getElementById('timeSelect').value;
-
-  try {
-    const res = await fetch('https://hook.us2.make.com/16yi5ngk6b6pdjtemqyffsvd719b695b', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ mood, time })
-    });
-
-    const data = await res.json();
-
-    alert("GPT says:\n\n" + data.map(d => `• ${d.activity} (~${d.time}, ${d.category})`).join("\n"));
-  } catch (err) {
-    console.error(err);
-    alert("Something went wrong. Check console.");
-  }
-});
-
-</script>
-
+  </script>
 </body>
 </html>
