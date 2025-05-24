@@ -2,173 +2,182 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Bored Board – Playful & Bright</title>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bored Board 🧠</title>
   <style>
-    body {
-      font-family: 'Fredoka', sans-serif;
-      background: #fff8f4;
-      color: #333;
-      padding: 2rem;
-      margin: 0;
+    :root {
+      --bg-light: #fffaf7;
+      --bg-dark: #1f1f1f;
+      --text-light: #222;
+      --text-dark: #eee;
+      --accent: #ff9f80;
+      --card-bg-light: #fff0e6;
+      --card-bg-dark: #2b2b2b;
     }
-    .screen {
-      background: white;
-      border-radius: 24px;
-      padding: 2rem;
+    html {
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--bg-light);
+      color: var(--text-light);
+      transition: all 0.3s ease-in-out;
+    }
+    body.dark {
+      background: var(--bg-dark);
+      color: var(--text-dark);
+    }
+    h1 {
+      text-align: center;
+      margin-top: 2rem;
+    }
+    .container {
+      max-width: 500px;
       margin: 2rem auto;
-      max-width: 420px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+      padding: 1rem;
+      border-radius: 14px;
     }
-    h1, h2 {
-      color: #ff785a;
-    }
-    .emoji-selector {
+    .emoji-row {
       display: flex;
-      justify-content: space-between;
-      margin: 1.5rem 0;
+      justify-content: space-around;
+      margin: 1rem 0;
     }
     .emoji {
-      font-size: 1.75rem;
-      background: #fff3b0;
-      border: 3px solid transparent;
-      border-radius: 16px;
-      padding: 0.75rem 1rem;
+      font-size: 2rem;
       cursor: pointer;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      transition: transform 0.2s ease;
     }
-    .dropdown {
-      margin: 1.5rem 0;
+    .emoji:hover {
+      transform: scale(1.2);
     }
-    select {
+    .emoji.selected {
+      background: var(--accent);
+      animation: bounce 0.4s;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.3); }
+    }
+    select, button {
       width: 100%;
-      padding: 0.75rem;
-      border-radius: 12px;
+      padding: 0.7rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin: 0.5rem 0;
       font-size: 1rem;
-    }
-    button {
-      display: block;
-      width: 100%;
-      margin: 1rem 0;
-      padding: 0.9rem;
-      font-size: 1rem;
-      border-radius: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      border: none;
-    }
-    .primary-button {
-      background: #ff785a;
-      color: white;
-    }
-    .secondary-button {
-      background: #ffe9e0;
     }
     .card {
-      background: #fff4ef;
-      border: 2px solid #ffd6c9;
-      border-radius: 16px;
-      margin-bottom: 1.5rem;
-      padding: 1rem;
-    }
-    .card-actions {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 0.5rem;
-    }
-    .toggle {
-      display: flex;
-      align-items: center;
+      background: var(--card-bg-light);
       margin: 1rem 0;
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
     }
-    .toggle input {
-      margin-right: 0.5rem;
+    .dark .card {
+      background: var(--card-bg-dark);
     }
   </style>
 </head>
 <body>
-
-<div class="screen mood-input">
-  <h1>How are you feeling?</h1>
-  <div class="emoji-selector">
-    <button class="emoji">😀</button>
-    <button class="emoji">😐</button>
-    <button class="emoji">😢</button>
-    <button class="emoji">🤩</button>
-  </div>
-
-  <div class="dropdown">
-    <label for="moodDetail">Select your vibe</label>
-    <select id="moodDetail">
-      <option value="chill">Chill</option>
-      <option value="bored">Bored</option>
-      <option value="energetic">Energetic</option>
-      <option value="sad">Sad</option>
+  <h1>Bored Board 🧠</h1>
+  <div class="container">
+    <div class="emoji-row">
+      <div class="emoji" data-mood="Chill">😊</div>
+      <div class="emoji" data-mood="Meh">😐</div>
+      <div class="emoji" data-mood="Sad">😢</div>
+      <div class="emoji" data-mood="Energetic">🤩</div>
+    </div>
+    <select id="mood">
+      <option value="Chill">Chill</option>
+      <option value="Meh">Meh</option>
+      <option value="Sad">Sad</option>
+      <option value="Energetic">Energetic</option>
     </select>
-  </div>
-
-  <div class="dropdown">
-    <label for="timeSelect">How much time?</label>
-    <select id="timeSelect">
-      <option value="15 mins">5–15 mins</option>
-      <option value="30 mins">30 mins</option>
+    <select id="time">
+      <option value="5 minutes">5–15 mins</option>
+      <option value="30 minutes">30 mins</option>
       <option value="1 hour">1 hour</option>
-      <option value="2+ hours">2+ hours</option>
     </select>
+    <button id="go">Find Activities</button>
+    <button onclick="surpriseMe()">Surprise Me</button>
+    <button onclick="alert('Coming soon! 👀')">Boredom Type Quiz</button>
+    <button onclick="askOracle()">Ask the Oracle 🔮</button>
+    <div id="results"></div>
   </div>
 
-  <div class="toggle">
-    <input type="checkbox" id="locationToggle" />
-    <label for="locationToggle">Include local suggestions</label>
-  </div>
+  <script>
+    const emojis = document.querySelectorAll('.emoji');
+    const moodSelect = document.getElementById('mood');
+    const timeSelect = document.getElementById('time');
+    const resultDiv = document.getElementById('results');
+    const webhook = "https://hook.us2.make.com/c6lecxsjriar6iqexqwxnc91nmwdb5m6";
 
-  <button class="primary-button">Find Activities</button>
-  <button class="secondary-button">Surprise Me</button>
-  <button class="secondary-button">Boredom Type Quiz</button>
-  <button class="secondary-button">Ask the Oracle</button>
-</div>
+    // Emoji selector logic
+    emojis.forEach(e => {
+      e.addEventListener('click', () => {
+        emojis.forEach(btn => btn.classList.remove('selected'));
+        e.classList.add('selected');
+        moodSelect.value = e.dataset.mood;
+      });
+    });
 
-<div class="screen activity-results">
-  <h2>Try one of these:</h2>
-  <div class="card">
-    <h3>Paint Something Weird With Coffee</h3>
-    <p>~30 minutes • Creative</p>
-    <div class="card-actions">
-      <button>♡ Save</button>
-      <button>↗ Share</button>
-    </div>
-  </div>
-  <div class="card">
-    <h3>Invent a Backstory for a Random Sock</h3>
-    <p>~10 minutes • Silly</p>
-    <div class="card-actions">
-      <button>♡ Save</button>
-      <button>↗ Share</button>
-    </div>
-  </div>
-  <div class="card">
-    <h3>Try a Nap in a New Spot</h3>
-    <p>~20 minutes • Relaxing</p>
-    <div class="card-actions">
-      <button>♡ Save</button>
-      <button>↗ Share</button>
-    </div>
-  </div>
-  <button class="secondary-button">Not Feeling These? Try Again</button>
-</div>
+    document.getElementById('go').addEventListener('click', async () => {
+      const mood = moodSelect.value;
+      const time = timeSelect.value;
+      const response = await fetch(webhook, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mood, time })
+      });
+      try {
+        const data = await response.json();
+        renderCards(data);
+      } catch (e) {
+        alert('Something went wrong.');
+        console.error(e);
+      }
+    });
 
-<div class="screen irl-mode">
-  <h2>IRL Mode</h2>
-  <p>Put your phone down! We'll ping you in 10 mins.</p>
-  <button class="primary-button">Start Timer</button>
-  <button class="secondary-button">End Early</button>
-</div>
+    function renderCards(items) {
+      resultDiv.innerHTML = "<h2>Try one of these:</h2>" + items.map(i => `
+        <div class="card">
+          <h3>${i.activity}</h3>
+          <p>~${i.time} • ${i.category}</p>
+        </div>
+      `).join('');
+    }
 
-<div class="screen social-mode">
-  <h2>Bored Together</h2>
-  <p>Connect with a buddy and complete a task together. No chat, just vibes.</p>
-  <button class="primary-button">Find a Buddy</button>
-</div>
+    function surpriseMe() {
+      const moods = ["Chill", "Meh", "Sad", "Energetic"];
+      const times = ["5 minutes", "30 minutes", "1 hour"];
+      moodSelect.value = moods[Math.floor(Math.random() * moods.length)];
+      timeSelect.value = times[Math.floor(Math.random() * times.length)];
+      document.getElementById('go').click();
+    }
 
+    function askOracle() {
+      renderCards([
+        {
+          activity: "Ask the wind what it wants from you.",
+          time: "2 minutes",
+          category: "Mystical"
+        },
+        {
+          activity: "Draw your future with your non-dominant hand.",
+          time: "10 minutes",
+          category: "Weird Therapy"
+        },
+        {
+          activity: "Open a random book and find today’s message.",
+          time: "5 minutes",
+          category: "Symbolism"
+        }
+      ]);
+    }
+
+    // Dark mode auto-detect
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.body.classList.add('dark');
+    }
+  </script>
 </body>
 </html>
