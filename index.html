@@ -112,7 +112,7 @@
     <div id="results"></div>
   </div>
 
-  <script>
+    <script>
     const emojis = document.querySelectorAll('.emoji');
     const moodSelect = document.getElementById('mood');
     const timeSelect = document.getElementById('time');
@@ -185,78 +185,5 @@
       document.body.classList.add('dark');
     }
   </script>
-<script>
-  const emojis = document.querySelectorAll('.emoji');
-  const moodSelect = document.getElementById('mood');
-  const timeSelect = document.getElementById('time');
-  const resultDiv = document.getElementById('results');
-  const webhook = "https://hook.us2.make.com/c6lecxsjriar6iqexqwxnc91nmwdb5m6";
-
-  emojis.forEach(e => {
-    e.addEventListener('click', () => {
-      emojis.forEach(btn => btn.classList.remove('selected'));
-      e.classList.add('selected');
-      moodSelect.value = e.dataset.mood;
-    });
-  });
-
-  document.getElementById('go').addEventListener('click', async () => {
-    const mood = moodSelect.value;
-    const time = timeSelect.value;
-    const response = await fetch(webhook, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ mood, time })
-    });
-    try {
-      const data = await response.json();
-      renderCards(data);
-    } catch (e) {
-      alert('Something went wrong. Please try again.');
-      console.error(e);
-    }
-  });
-
-  function renderCards(items) {
-    resultDiv.innerHTML = "<h2>Here’s your activity feed:</h2>" + items.map(i => `
-      <div class="card">
-        <h3>${i.activity}</h3>
-        <p>~${i.time} • ${i.category}</p>
-      </div>
-    `).join('');
-  }
-
-  function surpriseMe() {
-    const moods = ["Chill", "Bored", "Sad", "Energetic"];
-    const times = ["5-10 mins", "10-15 mins", "15-30 mins", "30-60 mins", "2+ hours"];
-    moodSelect.value = moods[Math.floor(Math.random() * moods.length)];
-    timeSelect.value = times[Math.floor(Math.random() * times.length)];
-    document.getElementById('go').click();
-  }
-
-  function askOracle() {
-    renderCards([
-      {
-        activity: "Seek something blue. Its meaning will reveal itself.",
-        time: "2 minutes",
-        category: "Mystical"
-      },
-      {
-        activity: "Draw your future with your non-dominant hand.",
-        time: "10 minutes",
-        category: "Weird Therapy"
-      },
-      {
-        activity: "Open a random book and find today’s message.",
-        time: "5 minutes",
-        category: "Symbolism"
-      }
-    ]);
-  }
-
-  if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    document.body.classList.add('dark');
-  }
-</script>
 </body>
 </html>
